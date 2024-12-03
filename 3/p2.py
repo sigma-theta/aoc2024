@@ -17,36 +17,36 @@ sum = 0
 
 
 with open(file_path, 'r') as input:
-    for l in input.readlines():
-        dont_idx = [m.start() for m in re.finditer(dont_pattern, l)]
-        do_idx = [m.start() for m in re.finditer(do_pattern, l)]
-        # print(dont_idx)
-        # print(do_idx)
-        valid_parts = []
-        valid_parts.append((0, dont_idx[0]))
-        i = 0
-        cur_invalid = dont_idx[0]
-        while i < len(do_idx):
-            cur_valid = do_idx[i]
-            # print(f"cur valid: {cur_valid}")
-            try:
-                new_invalid = max(cur_invalid, [idx for idx in dont_idx if idx > cur_valid][0])
-                # print(f"new invalid: {new_invalid}")
-            except IndexError:
-                valid_parts.append((cur_valid, len(l)))
-                break
-            if new_invalid != cur_invalid:
-                valid_parts.append((cur_valid, new_invalid))
-            cur_invalid = new_invalid
-            i+=1
-        # print(valid_parts)
-        for p in valid_parts:
-            search = l[p[0]:p[1]]
-            sums = re.findall(mul_pattern, search)
-            # print(sums)
-            for s in sums:
-                sum += int(s[s.find("(")+1:s.find(",")]) * int(s[s.find(",")+1:s.find(")")])
-        # print(sum)
+    contents = input.read()
+dont_idx = [m.start() for m in re.finditer(dont_pattern, contents)]
+do_idx = [m.start() for m in re.finditer(do_pattern, contents)]
+# print(dont_idx)
+# print(do_idx)
+valid_parts = []
+valid_parts.append((0, dont_idx[0]))
+i = 0
+cur_invalid = dont_idx[0]
+while i < len(do_idx):
+    cur_valid = do_idx[i]
+    # print(f"cur valid: {cur_valid}")
+    try:
+        new_invalid = max(cur_invalid, [idx for idx in dont_idx if idx > cur_valid][0])
+        # print(f"new invalid: {new_invalid}")
+    except IndexError:
+        valid_parts.append((cur_valid, len(contents)))
+        break
+    if new_invalid != cur_invalid:
+        valid_parts.append((cur_valid, new_invalid))
+    cur_invalid = new_invalid
+    i+=1
+# print(valid_parts)
+for p in valid_parts:
+    search = contents[p[0]:p[1]]
+    sums = re.findall(mul_pattern, search)
+    # print(sums)
+    for s in sums:
+        sum += int(s[s.find("(")+1:s.find(",")]) * int(s[s.find(",")+1:s.find(")")])
+# print(sum)
 print(sum)
             
 
