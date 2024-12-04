@@ -1,5 +1,4 @@
 import os
-import re
 
 file_path = os.path.join(os.path.dirname(__file__), 'input.txt')                                                                                                                                                                                             
 ans = 0                          
